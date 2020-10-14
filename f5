@@ -1,0 +1,12 @@
+when HTTP_REQUEST {
+ if {[HTTP::header exists X-Forwarded-For]}{
+ HTTP::header replace X-Forwarded-For "[HTTP::header X-Forwarded-For], [IP::client_addr],123.10.98.132"
+ } else {
+ HTTP::header insert X-Forwarded-For "[IP::client_addr], 123.10.98.132"
+ }
+ if {[HTTP::header exists X-Forwarded-Host]}{
+ HTTP::header replace X-Forwarded-Host "[HTTP::header X-Forwarded-Host], [IP::client_addr],123.10.98.132:7080"
+ } else {
+ HTTP::header insert X-Forwarded-Host "[IP::client_addr], 10.10.10.21:7080"
+ }
+}
